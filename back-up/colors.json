@@ -1,0 +1,8 @@
+{ 
+    "_id" : ObjectId("5f91330a0e23f45b2921b912"), 
+    "createdAt" : ISODate("2020-10-22T07:20:40.529+0000"), 
+    "name" : "Màu đỏ", 
+    "code" : "#FF0000", 
+    "img" : "http://giaitri365.net/wp-content/uploads/2020/03/grrl-bikini-2-manh.jpg", 
+    "__v" : NumberInt(0)
+}

@@ -1,0 +1,14 @@
+{ 
+    "_id" : ObjectId("5f8cee312d7eab3f9f255c9d"), 
+    "picture" : "https://lh3.googleusercontent.com/a-/AOh14Gj0oIfUqfKJ6BuLTQOn0eS6ET6ABAw5wOLKwPaX=s96-c", 
+    "__v" : NumberInt(0)
+}
+{ 
+    "_id" : ObjectId("5f8e906796cd00688047b539"), 
+    "name" : "Cross Sans Human", 
+    "given_name" : "Cross Sans", 
+    "family_name" : "Human", 
+    "picture" : "https://lh3.googleusercontent.com/a-/AOh14GgUS9eVRt2ppyG7h2HGyp6zkOSiKN_wA_cihP0y6Q=s96-c", 
+    "locale" : "vi", 
+    "__v" : NumberInt(0)
+}

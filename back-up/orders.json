@@ -1,0 +1,43 @@
+{ 
+    "_id" : ObjectId("5f93ea39f8c6dd01dd6b3c07"), 
+    "totalPrice" : NumberInt(10600000), 
+    "createdAt" : ISODate("2020-10-24T08:47:48.439+0000"), 
+    "user" : ObjectId("5f8cee312d7eab3f9f255c9e"), 
+    "address" : "46/14 Nguyễn Cửu Vân, phường 17, quận Bình Thạnh, TP.HCM", 
+    "name" : "24102020 - dunfoto", 
+    "products" : [
+        {
+            "_id" : ObjectId("5f92b291e3fe583361729689"), 
+            "product" : ObjectId("5f867c151f3191aeaeff5688"), 
+            "detail" : [
+                {
+                    "amount" : NumberInt(2), 
+                    "_id" : ObjectId("5f92b291e3fe58336172968a"), 
+                    "size" : "XXL", 
+                    "color" : "#ff0000"
+                }, 
+                {
+                    "amount" : NumberInt(100), 
+                    "_id" : ObjectId("5f92b291e3fe58336172968b"), 
+                    "size" : "XL", 
+                    "color" : "#fff"
+                }
+            ]
+        }, 
+        {
+            "_id" : ObjectId("5f92b291e3fe58336172968c"), 
+            "product" : ObjectId("5f86b4df184896a375a8cd9b"), 
+            "detail" : [
+                {
+                    "amount" : NumberInt(2), 
+                    "_id" : ObjectId("5f92b291e3fe58336172968d"), 
+                    "size" : "42", 
+                    "color" : "#ff000"
+                }
+            ]
+        }
+    ], 
+    "status" : "Receive Order", 
+    "shipping" : "COD", 
+    "__v" : NumberInt(0)
+}

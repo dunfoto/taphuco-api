@@ -1,0 +1,75 @@
+{ 
+    "_id" : ObjectId("5f929f170a08c1a47c258236"), 
+    "products" : [
+        {
+            "_id" : ObjectId("5f95412f8b7dc86412a909c1"), 
+            "product" : ObjectId("5f867c151f3191aeaeff5688"), 
+            "detail" : [
+                {
+                    "amount" : NumberInt(2), 
+                    "_id" : ObjectId("5f95412f8b7dc86412a909c2"), 
+                    "size" : "XXL", 
+                    "color" : "#ff0000"
+                }, 
+                {
+                    "amount" : NumberInt(100), 
+                    "_id" : ObjectId("5f95412f8b7dc86412a909c3"), 
+                    "size" : "XL", 
+                    "color" : "#fff"
+                }
+            ]
+        }, 
+        {
+            "_id" : ObjectId("5f95412f8b7dc86412a909c4"), 
+            "product" : ObjectId("5f86b4df184896a375a8cd9b"), 
+            "detail" : [
+                {
+                    "amount" : NumberInt(2), 
+                    "_id" : ObjectId("5f95412f8b7dc86412a909c5"), 
+                    "size" : "42", 
+                    "color" : "#ff000"
+                }
+            ]
+        }
+    ], 
+    "createdAt" : ISODate("2020-10-14T04:17:46.959+0000"), 
+    "user" : ObjectId("5f8cee312d7eab3f9f255c9e"), 
+    "__v" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5f9577e26a659e3a87d250ca"), 
+    "user" : ObjectId("5f8e906796cd00688047b53a"), 
+    "__v" : NumberInt(0), 
+    "products" : [
+        {
+            "_id" : ObjectId("5f9577e24ef0a64a08360bc2"), 
+            "product" : ObjectId("5f867c151f3191aeaeff5688"), 
+            "detail" : [
+                {
+                    "amount" : NumberInt(2), 
+                    "_id" : ObjectId("5f9577e24ef0a64a08360bc3"), 
+                    "size" : "XXL", 
+                    "color" : "#ff0000"
+                }, 
+                {
+                    "amount" : NumberInt(100), 
+                    "_id" : ObjectId("5f9577e24ef0a64a08360bc4"), 
+                    "size" : "XL", 
+                    "color" : "#fff"
+                }
+            ]
+        }, 
+        {
+            "_id" : ObjectId("5f9577e24ef0a64a08360bc5"), 
+            "product" : ObjectId("5f86b4df184896a375a8cd9b"), 
+            "detail" : [
+                {
+                    "amount" : NumberInt(2), 
+                    "_id" : ObjectId("5f9577e24ef0a64a08360bc6"), 
+                    "size" : "42", 
+                    "color" : "#ff000"
+                }
+            ]
+        }
+    ]
+}

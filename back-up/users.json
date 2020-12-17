@@ -1,0 +1,56 @@
+{ 
+    "_id" : ObjectId("5f8cee312d7eab3f9f255c9e"), 
+    "orders" : [
+
+    ], 
+    "type" : "Google", 
+    "createdAt" : ISODate("2020-10-19T01:38:41.669+0000"), 
+    "email" : "dunfoto@gmail.com", 
+    "username" : "dunfoto", 
+    "password" : null, 
+    "avatar" : "https://lh3.googleusercontent.com/a-/AOh14Gj0oIfUqfKJ6BuLTQOn0eS6ET6ABAw5wOLKwPaX=s96-c", 
+    "google" : ObjectId("5f8cee312d7eab3f9f255c9d"), 
+    "addresses" : [
+        {
+            "default" : false, 
+            "_id" : ObjectId("5f93a8a70f03556afe8453eb"), 
+            "name" : "Nhà mới", 
+            "address" : "76/14C Quốc Hương, phường Thảo Điền, quận 2, TP.HCM"
+        }, 
+        {
+            "default" : true, 
+            "_id" : ObjectId("5f93aa0493e05d79659b4f8c"), 
+            "name" : "Công ty", 
+            "address" : "180 Nguyễn Thị Minh Khai, phường 6, quận 3, TP.HCM"
+        }, 
+        {
+            "default" : false, 
+            "_id" : ObjectId("5f953e336c5f131bfc6bdc45"), 
+            "name" : "ABCXYZ", 
+            "address" : "180 Nguyễn Thị Minh Khai, phường 6, quận 3, TP.HCM"
+        }, 
+        {
+            "default" : false, 
+            "_id" : ObjectId("5f9558c40b5e9e7e03bb9f8c"), 
+            "name" : "Trường Đại học", 
+            "address" : "268 Lý Thường Kiệt, phường 14, quận 10, TP.HCM"
+        }
+    ], 
+    "__v" : NumberInt(11)
+}
+{ 
+    "_id" : ObjectId("5f8e906796cd00688047b53a"), 
+    "orders" : [
+
+    ], 
+    "type" : "Google", 
+    "createdAt" : ISODate("2020-10-20T03:50:08.654+0000"), 
+    "email" : "chaunguyen4297@gmail.com", 
+    "username" : "chaunguyen4297", 
+    "password" : null, 
+    "firstName" : "Cross Sans", 
+    "lastName" : "Human", 
+    "avatar" : "https://lh3.googleusercontent.com/a-/AOh14GgUS9eVRt2ppyG7h2HGyp6zkOSiKN_wA_cihP0y6Q=s96-c", 
+    "google" : ObjectId("5f8e906796cd00688047b539"), 
+    "__v" : NumberInt(0)
+}

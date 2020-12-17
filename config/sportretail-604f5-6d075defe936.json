@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "sportretail-604f5",
+  "private_key_id": "6d075defe936821f6da1d3f03df7614e5a35f487",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDy3rXxcP9olfa1\nUsaJEUiBwXIuZgp395AQnaeiSW2fADhMqQuEj6g2nynMg/2zx7Y0aRw9gsIO9vi9\ng6MiyoscLpVdSGGHGyvjzK4n3fUlEOWhergzFNHM8BXlPdH074eHPTvlDKPTtS5b\n+gnVp/cbbxlri2jXnub/Vo573wRGMzk6pr7pJqs2lo1qXppqqeMMLiKLVc/ukLqx\naTq0L1v6Lla+IybnmWo650eiya2mjOy1BppvmbOdRc5G9yzwhC6N7gQz6LlQ3exg\n/fbobab8L7sTVLrqKAhq4d22N1Q3s7EJkpG4j2MYJTLhFzWOQoAHJDInSEEGdazU\nW71iuD5lAgMBAAECggEAAv9WUy4Cq57vhgpeUpJo3i0YhH5pklR3AzV8PFJYAivb\nBgXaE19Ag2K7KH/X3Dr9QoVU6LoZ51xgnS99jnAzKlG1hzVdpXC46HKovZY4MHvB\nEcP1d6/sl5u+RsTYuANSyAuslxBCX1paQZ6ti2UAyuZinm4AiRS4I3Oahj3Y4X2P\nMhEV0npsuA9VTAEYetSIXQJTZt6cT/Ur1/e5soruO6lze3Secw7EKbkQwkIA1DSS\n3SIix4mBF9d2PgmvX5qLkIGtpBl/22WX18khcLBvgzQmVhqSoPR1OcXFuxn+tRfB\n4TygQtohivTBRxegzvarZ1/94lLFuleWLeicO3f2SwKBgQD7aJ9SbJ4VE2+57RUj\nj+IeCfYewroKp7UQbLcw0v6ompODzfuk/9Mdl44HBAVvT9h15yg/I5rrZTtnABcZ\nDfRuaS1rweSf6SxP4OAVU6izrmT7rpFJprSjuU3jZd6FBpIVfpTbSNCdMT/vR4B3\nfhxPVEDx803vlBmDS5xqf2P9HwKBgQD3TiseV6Kiv+knJqa7nMtLnZ2kIyADIceG\nP46JqbVjKbAW9qnVCaAJs12H8UqgEqJmwVBg/fCNB0gK6QBxKaSIr58NTl1eERe2\nwYlDYrIAco+MaKSddb9nJxuL5LdmPh6BAtbV/QvSllsxm4SFpLPeSa7JhPQhTTq2\nHeNO2p3P+wKBgQDXsbw3OC8sf990Ub64IwLpqLw7Se/ZomcK72r//ZY0y2HSTFAh\nEMds9REKXd3X0VYyWZ9DBGYunUyoowAuI7XZYG1yrQhcVe4JnjJCueLcPbwv3maS\nHO+QJDR563VNBgUhYdeOh1tL8ewbe2nxmwXo3a1Wp9ruuE5nQeCx0hfUGwKBgGR1\nbnKO6tPt3Uo4GzbPBI4c4rKQSiq7iA9ytfYZ6EL15kANxwNxO391SyMz0zqfFzVi\nhcJApXzEXnGAINvXLK0RmiyPjsHtc5Kbn6St7NzdrI4+28/SywOeEUSMjiuMRFvn\nyVl3x1uuFDFcmUKomyBLEiNuTLVSZ+0eyv13NPANAoGAL6ijxscrgrN2r7PXDd8F\nEbpvqKku311dhsrXhR8Jnlt1erjBkEinDY9+NwCez7ecCDDeFg9Z/zEuecBm7RV6\n9lCofGT0ZGUahbwAn/b4mapWsPVjvN/UUKH+FDTzEKfrlAEsAqog9PfVp+hr+1yV\nnDdGeo8bSmDadWZ8IpKWsXI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "bentrinhauthorization@sportretail-604f5.iam.gserviceaccount.com",
+  "client_id": "114589762541590581417",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bentrinhauthorization%40sportretail-604f5.iam.gserviceaccount.com"
+}

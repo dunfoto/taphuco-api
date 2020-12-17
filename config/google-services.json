@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "977143204205",
+    "firebase_url": "https://sportretail-604f5.firebaseio.com",
+    "project_id": "sportretail-604f5",
+    "storage_bucket": "sportretail-604f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977143204205:android:7ad26b213fafe556587264",
+        "android_client_info": {
+          "package_name": "com.locnguyen.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977143204205-j0iah3dugnus7ea8n8jpnh3uk4d9jpk1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtJuVS9A_NhJ5UymOZFLJYjpqokiA02Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977143204205-j0iah3dugnus7ea8n8jpnh3uk4d9jpk1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
