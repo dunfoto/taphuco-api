@@ -1,21 +1,44 @@
 const mongoose = require("mongoose")
 const BannerSchema = new mongoose.Schema({
-    original: {
+    position: {
+        type: Number
+    },
+    img: {
         type: String,
         required: true
     },
-    nodes: {
-        left: Number,
-        bottom: Number,
-        content: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "HotSpot"
+    nodes: [{
+        left: {
+            type: Number
+        },
+        bottom: {
+            type: Number
         },
         openDefault: {
             type: Boolean,
             default: false
+        },
+        content: {
+            title: {
+                type: String
+            },
+            subTitle: {
+                type: String
+            },
+            color: {
+                type: String
+            },
+            requirement: {
+                type: String
+            },
+            product: {
+                type: String
+            },
+            link: {
+                type: String
+            }
         }
-    }
+    }]
 }, {
     timestamps: true
 })
