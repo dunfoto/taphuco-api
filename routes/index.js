@@ -4,4 +4,6 @@ module.exports = app => {
     require("./adminCMS")(app)
     require("./config")(app)
     require("./banner")(app)
+    require("./category")(app)
+    require("./product")(app)
 }

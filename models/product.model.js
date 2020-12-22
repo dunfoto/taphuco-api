@@ -4,7 +4,7 @@ const ModelSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    images: [{
+    imgs: [{
         type: String
     }],
     prepare: [{
@@ -15,7 +15,11 @@ const ModelSchema = new mongoose.Schema({
     }],
     complete: [{
         type: String
-    }]
+    }],
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    }
 }, {
     timestamps: true
 })

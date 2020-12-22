@@ -4,10 +4,10 @@ const ModelSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    products: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-    }]
+    img: {
+        type: String, 
+        required: true
+    }
 }, {
     timestamps: true
 })

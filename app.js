@@ -10,7 +10,6 @@ const express = require('express'),
 
 const app = express()
 
-
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -48,11 +47,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 require('./routes')(app)
 
-app.get('/swagger.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json')
-    res.send(swaggerSpec)
-})
-
 app.use((req, res, next) => {
     let err = new Error('Not Found')
     err.status = 404
@@ -61,6 +55,7 @@ app.use((req, res, next) => {
 
 if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
+        console.log(err)
         res.status(err.code || 500)
             .json({
                 status: 'error',
