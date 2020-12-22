@@ -42,7 +42,18 @@ module.exports = app => {
 
     app.get('/categories', async (req, res) => {
         try {
-            const data = await Category.find({})
+            const { query: { page = 0, limit = 10 } } = req,
+                data = await Category.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(limit).skip(page * limit),
+                pagination = { page, limit, total: await Category.countDocuments({}) }
+            res.status(200).json({ data, pagination, error: null })
+        } catch (err) {
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
+    app.get('/categories/all', async (req, res) => {
+        try {
+            const data = await Category.find({}).sort({ updatedAt: -1, createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })

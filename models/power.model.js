@@ -6,7 +6,7 @@ const ModelSchema = new mongoose.Schema({
     content: {
         type: String
     },
-    reference: [{
+    categories: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Category"
     }]

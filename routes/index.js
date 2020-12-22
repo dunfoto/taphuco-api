@@ -6,4 +6,7 @@ module.exports = app => {
     require("./banner")(app)
     require("./category")(app)
     require("./product")(app)
+    require('./solution')(app)
+    require('./customerExperience')(app)
+    require('./power')(app)
 }

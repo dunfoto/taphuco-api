@@ -1,30 +1,29 @@
-const Banner = require("../models/banner.model"),
+const CustomerExperience = require("../models/customerExperience.model"),
     { saveImage } = require("../common/image")
+
 module.exports = app => {
-    app.post("/banner", async (req, res) => {
+    app.post('/customer-experience', async (req, res) => {
         try {
             const { body } = req
-
+            console.log(body)
             if (body.img.includes("data:image/png;base64")) {
                 const data = await saveImage(body.img)
                 if (data.error) throw data.error
                 body.img = data.result
             }
-            body.position = (await Banner.countDocuments({})) - 1
-            const banner = new Banner(body)
-            await banner.save()
-            res.status(200).json({ data: banner, error: null })
+            const data = new CustomerExperience(body)
+            await data.save()
+            res.status(200).json({ data, error: null })
         } catch (err) {
             console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })
 
-
-    app.put("/banner/:id", async (req, res) => {
+    app.put('/customer-experience/:id', async (req, res) => {
         try {
             const { params: { id }, body } = req,
-                data = await Banner.findById(id)
+                data = await CustomerExperience.findById(id)
             if (body.img.includes("data:image/png;base64")) {
                 const data = await saveImage(body.img)
                 if (data.error) throw data.error
@@ -32,57 +31,45 @@ module.exports = app => {
             }
             if (data) {
                 data.img = body.img
-                data.nodes = body.nodes
+                data.title = body.title
+                data.description = body.description
+                data.content = body.content
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
                 res.status(302).json({ data: null, error: "Have no this record in system!" })
             }
         } catch (err) {
-            console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/banner/:id", async (req, res) => {
-        try {
-            const { params: { id } } = req,
-                data = await Banner.findById(id)
-            res.status(200).json({ data, error: null })
-        } catch (err) {
-            res.status(302).json({ data: null, error: err })
-        }
-    })
-
-    app.get("/banners", async (req, res) => {
+    app.get('/customer-experiences', async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(limit).skip(page * limit),
-                pagination = { page, limit, total: await Banner.countDocuments({}) }
+                data = await CustomerExperience.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(limit).skip(page * limit),
+                pagination = { page, limit, total: await CustomerExperience.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.delete("/banner/:id", async (req, res) => {
+    app.get('/customer-experience/:id', async (req, res) => {
         try {
-            const { params: { id } } = req
-            await Banner.findByIdAndDelete(id)
-            res.status(200).json({ data: "Deleted success", error: null })
+            const { params: { id } } = req,
+                data = await CustomerExperience.findById(id)
+            res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-
-    app.put("/banners/position", async (req, res) => {
+    app.delete("/customer-experience/:id", async (req, res) => {
         try {
-            const { body } = req,
-                lstPosition = body.map(async data => {
-                    await Banner.update({ _id: data._id }, { position: data.position })
-                })
-            Promise.all(lstPosition).then(result => console.log(result))
+            const { params: { id } } = req
+            await CustomerExperience.findByIdAndDelete(id)
+            res.status(200).json({ data: "Deleted success!", error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }

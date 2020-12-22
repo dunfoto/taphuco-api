@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const ModelSchema = new mongoose.Schema({
-    image: {
+    img: {
         type: String
     },
     title: {
@@ -8,8 +8,7 @@ const ModelSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String,
-        required: true
+        type: String
     },
     content: {
         type: String,
