@@ -48,6 +48,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 require('./routes')(app)
 
 app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+    res.setHeader('Access-Control-Allow-Credentials', true)
+
     let err = new Error('Not Found')
     err.status = 404
     next(err)
@@ -55,7 +60,6 @@ app.use((req, res, next) => {
 
 if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
-        console.log(err)
         res.status(err.code || 500)
             .json({
                 status: 'error',
