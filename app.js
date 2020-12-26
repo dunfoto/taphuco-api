@@ -13,8 +13,8 @@ const app = express()
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 })
 mongoose.set('debug', true)
 const db = mongoose.connection

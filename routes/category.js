@@ -1,5 +1,7 @@
 const Category = require("../models/category.model"),
-    { saveImage } = require("../common/image")
+    { saveImage } = require("../common/image"),
+    decodeUriComponent = require('decode-uri-component'),
+    mongoose = require('mongoose')
 
 module.exports = app => {
     app.post('/category', async (req, res) => {
@@ -30,6 +32,7 @@ module.exports = app => {
             if (data) {
                 data.img = body.img
                 data.title = body.title
+                data.description = body.description
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
@@ -62,9 +65,14 @@ module.exports = app => {
 
     app.get('/category/:id', async (req, res) => {
         try {
-            const { params: { id } } = req,
-                data = await Category.findById(id)
-            res.status(200).json({ data, error: null })
+            const { params: { id } } = req
+            if (mongoose.Types.ObjectId.isValid(id)) {
+                const data = await Category.findById(id)
+                res.status(200).json({ data, error: null })
+            } else {
+                const data = await Category.findOne({ title: decodeUriComponent(id) })
+                res.status(200).json({ data, error: null })
+            }
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
@@ -75,6 +83,17 @@ module.exports = app => {
             const { params: { id } } = req
             await Category.findByIdAndDelete(id)
             res.status(200).json({ data: "Deleted success!", error: null })
+        } catch (err) {
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
+
+    app.get('/categories/search', async (req, res) => {
+        try {
+            const { query: { search } } = req,
+                data = await Category.fuzzySearch(search)
+            res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
