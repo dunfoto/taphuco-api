@@ -1,5 +1,8 @@
 const CustomerExperience = require("../models/customerExperience.model"),
-    { saveImage } = require("../common/image")
+    { saveImage } = require("../common/image"),
+    { isValidObjectId } = require('../common/mongoose'),
+    decodeUriComponent = require('decode-uri-component'),
+    escapeStringRegexp = require('escape-string-regexp')
 
 module.exports = app => {
     app.post('/customer-experience', async (req, res) => {
@@ -47,7 +50,7 @@ module.exports = app => {
     app.get('/customer-experiences', async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await CustomerExperience.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(limit).skip(page * limit),
+                data = await CustomerExperience.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
                 pagination = { page, limit, total: await CustomerExperience.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
@@ -55,10 +58,36 @@ module.exports = app => {
         }
     })
 
+    app.get("/customer-experiences/all", async (req, res) => {
+        try {
+            const data = await CustomerExperience.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            res.status(200).json({ data, error: null })
+        } catch (err) {
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
     app.get('/customer-experience/:id', async (req, res) => {
         try {
-            const { params: { id } } = req,
-                data = await CustomerExperience.findById(id)
+            const { params: { id } } = req
+            if (isValidObjectId(id)) {
+                const data = await CustomerExperience.findById(id)
+                res.status(200).json({ data, error: null })
+            } else {
+                const $regex = escapeStringRegexp(decodeUriComponent(id)),
+                    data = await CustomerExperience.findOne({ title: { $regex } })
+                res.status(200).json({ data, error: null })
+            }
+        } catch (err) {
+            console.log(err)
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
+    app.get('/customer-experiences/reference', async (req, res) => {
+        try {
+            const { query: { id } } = req,
+                data = await CustomerExperience.aggregate([{ $match: { _id: { $ne: id } } }, { $sample: { size: 3 } }, { $sort: { updatedAt: -1, createdAt: -1 } }])
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })

@@ -5,14 +5,6 @@ const ModelSchema = new mongoose.Schema({
         image: String,
         content: String
     }],
-    businessArea: {
-        type: String,
-        required: true
-    },
-    target: {
-        type: String,
-        required: true
-    },
     boardDirecter: [{
         name: String,
         position: String,

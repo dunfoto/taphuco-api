@@ -7,6 +7,7 @@ module.exports = app => {
             const config = JSON.parse(await fs.readFileSync("config/config.json", "utf-8"))
             res.status(200).json({ data: config, errors: null })
         } catch (err) {
+            console.log(err)
             res.status(302).json({ data: null, errors: err })
         }
     })

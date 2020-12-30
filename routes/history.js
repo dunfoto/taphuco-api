@@ -1,7 +1,7 @@
-const Banner = require("../models/banner.model"),
+const History = require("../models/history.model"),
     { saveImage } = require("../common/image")
 module.exports = app => {
-    app.post("/banner", async (req, res) => {
+    app.post("/history", async (req, res) => {
         try {
             const { body } = req
 
@@ -10,10 +10,10 @@ module.exports = app => {
                 if (data.error) throw data.error
                 body.img = data.result
             }
-            body.position = (await Banner.countDocuments({}))
-            const banner = new Banner(body)
-            await banner.save()
-            res.status(200).json({ data: banner, error: null })
+            body.position = (await History.countDocuments({})) - 1
+            const history = new History(body)
+            await history.save()
+            res.status(200).json({ data: history, error: null })
         } catch (err) {
             console.log(err)
             res.status(302).json({ data: null, error: err })
@@ -21,10 +21,10 @@ module.exports = app => {
     })
 
 
-    app.put("/banner/:id", async (req, res) => {
+    app.put("/history/:id", async (req, res) => {
         try {
             const { params: { id }, body } = req,
-                data = await Banner.findById(id)
+                data = await History.findById(id)
             if (body.img.includes("data:image/png;base64")) {
                 const data = await saveImage(body.img)
                 if (data.error) throw data.error
@@ -32,7 +32,8 @@ module.exports = app => {
             }
             if (data) {
                 data.img = body.img
-                data.nodes = body.nodes
+                data.year = body.year
+                data.content = body.content
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
@@ -44,40 +45,41 @@ module.exports = app => {
         }
     })
 
-    app.get("/banner/:id", async (req, res) => {
+    app.get("/history/:id", async (req, res) => {
         try {
             const { params: { id } } = req,
-                data = await Banner.findById(id)
+                data = await History.findById(id)
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/banners", async (req, res) => {
+    app.get("/histories", async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
-                pagination = { page, limit, total: await Banner.countDocuments({}) }
+                data = await History.find({}).sort({ year: 1, updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
+                pagination = { page, limit, total: await History.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/banners/all", async (req, res) => {
+
+    app.get("/histories/all", async (req, res) => {
         try {
-            const data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            const data = await History.find({}).sort({ updatedAt: -1, createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.delete("/banner/:id", async (req, res) => {
+    app.delete("/history/:id", async (req, res) => {
         try {
             const { params: { id } } = req
-            await Banner.findByIdAndDelete(id)
+            await History.findByIdAndDelete(id)
             res.status(200).json({ data: "Deleted success", error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
@@ -85,13 +87,13 @@ module.exports = app => {
     })
 
 
-    app.put("/banners/position", async (req, res) => {
+    app.put("/historys/position", async (req, res) => {
         try {
-            const { body } = req
-            await Promise.all(body.map(async data => {
-                await Banner.update({ _id: data._id }, { position: data.position })
-            }))
-            res.status(200).json({ data: "Updated success", error: null })
+            const { body } = req,
+                lstPosition = body.map(async data => {
+                    await History.update({ _id: data._id }, { position: data.position })
+                })
+            Promise.all(lstPosition).then(result => console.log(result))
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }

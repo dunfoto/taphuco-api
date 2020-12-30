@@ -1,6 +1,8 @@
-const { rmSync } = require('fs')
 const Solution = require('../models/solution.model'),
-    { saveImage } = require("../common/image")
+    { saveImage } = require("../common/image"),
+    decodeUriComponent = require('decode-uri-component'),
+    mongoose = require('mongoose'),
+    escapeStringRegexp = require('escape-string-regexp')
 
 module.exports = app => {
     app.post('/images/upload', async (req, res) => {
@@ -41,7 +43,7 @@ module.exports = app => {
     app.get('/solutions', async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Solution.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(limit).skip(page * limit),
+                data = await Solution.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
                 pagination = { page, limit, total: await Solution.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
@@ -49,16 +51,44 @@ module.exports = app => {
         }
     })
 
-    app.get('/solution/:id', async (req, res) => {
+    app.get("/solutions/all", async (req, res) => {
         try {
-            const { query: { page = 0, limit = 10 }, params: { id } } = req,
-                data = await Solution.findById(id)
+            const data = await Solution.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            res.status(200).json({ data, error: null })
+        } catch (err) {
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
+    app.get('/solutions/reference', async (req, res) => {
+        try {
+            const { query: { id } } = req,
+                data = await Solution.aggregate([{ $match: { _id: { $ne: id } } }, { $sample: { size: 5 } }])
+            data.forEach(v => { delete v.content })
             res.status(200).json({ data, error: null })
         } catch (err) {
             console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })
+
+    app.get('/solution/:id', async (req, res) => {
+        try {
+            const { params: { id } } = req
+            if (mongoose.Types.ObjectId.isValid(id)) {
+                const data = await Solution.findById(id)
+                res.status(200).json({ data, error: null })
+            } else {
+                const $regex = escapeStringRegexp(decodeUriComponent(id)),
+                    data = await Solution.findOne({ title: { $regex } })
+                res.status(200).json({ data, error: null })
+            }
+        } catch (err) {
+            console.log(err)
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
 
     app.put('/solution/:id', async (req, res) => {
         try {
@@ -73,12 +103,14 @@ module.exports = app => {
                 data.title = body.title
                 data.img = body.img
                 data.content = body.content
+                data.showTitle = body.showTitle
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
                 res.status(302).json({ data: null, error: "Have no this record in system!" })
             }
         } catch (err) {
+            console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })

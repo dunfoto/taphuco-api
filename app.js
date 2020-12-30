@@ -33,6 +33,9 @@ require("./models/hotSpot.model")
 require("./models/image.model")
 require("./models/power.model")
 require("./models/solution.model")
+require("./models/history.model")
+require("./models/boardDirector.model")
+require("./models/client.model")
 
 app.use(cors({
     "origin": "*",

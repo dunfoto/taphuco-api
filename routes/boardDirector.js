@@ -1,19 +1,18 @@
-const Banner = require("../models/banner.model"),
+const BoardDirector = require("../models/boardDirector.model"),
     { saveImage } = require("../common/image")
 module.exports = app => {
-    app.post("/banner", async (req, res) => {
+    app.post("/board-director", async (req, res) => {
         try {
             const { body } = req
-
             if (body.img.includes("data:image/png;base64")) {
                 const data = await saveImage(body.img)
                 if (data.error) throw data.error
                 body.img = data.result
             }
-            body.position = (await Banner.countDocuments({}))
-            const banner = new Banner(body)
-            await banner.save()
-            res.status(200).json({ data: banner, error: null })
+            body.position = (await BoardDirector.countDocuments({}))
+            const data = new BoardDirector(body)
+            await data.save()
+            res.status(200).json({ data, error: null })
         } catch (err) {
             console.log(err)
             res.status(302).json({ data: null, error: err })
@@ -21,10 +20,10 @@ module.exports = app => {
     })
 
 
-    app.put("/banner/:id", async (req, res) => {
+    app.put("/board-director/:id", async (req, res) => {
         try {
             const { params: { id }, body } = req,
-                data = await Banner.findById(id)
+                data = await BoardDirector.findById(id)
             if (body.img.includes("data:image/png;base64")) {
                 const data = await saveImage(body.img)
                 if (data.error) throw data.error
@@ -32,7 +31,9 @@ module.exports = app => {
             }
             if (data) {
                 data.img = body.img
-                data.nodes = body.nodes
+                data.name = body.name
+                data.title = body.title
+                data.position = body.position
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
@@ -44,40 +45,41 @@ module.exports = app => {
         }
     })
 
-    app.get("/banner/:id", async (req, res) => {
+    app.get("/board-director/:id", async (req, res) => {
         try {
             const { params: { id } } = req,
-                data = await Banner.findById(id)
+                data = await BoardDirector.findById(id)
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/banners", async (req, res) => {
+    app.get("/board-directors", async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
-                pagination = { page, limit, total: await Banner.countDocuments({}) }
+                data = await BoardDirector.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
+                pagination = { page, limit, total: await BoardDirector.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
+            console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/banners/all", async (req, res) => {
+    app.get("/board-directors/all", async (req, res) => {
         try {
-            const data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            const data = await BoardDirector.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.delete("/banner/:id", async (req, res) => {
+    app.delete("/board-director/:id", async (req, res) => {
         try {
             const { params: { id } } = req
-            await Banner.findByIdAndDelete(id)
+            await BoardDirector.findByIdAndDelete(id)
             res.status(200).json({ data: "Deleted success", error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
@@ -85,11 +87,11 @@ module.exports = app => {
     })
 
 
-    app.put("/banners/position", async (req, res) => {
+    app.put("/board-directors/position", async (req, res) => {
         try {
             const { body } = req
             await Promise.all(body.map(async data => {
-                await Banner.update({ _id: data._id }, { position: data.position })
+                await BoardDirector.update({ _id: data._id }, { position: data.position })
             }))
             res.status(200).json({ data: "Updated success", error: null })
         } catch (err) {

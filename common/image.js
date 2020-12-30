@@ -10,6 +10,16 @@ const saveImage = async (data) => {
     }
 }
 
+const removeImage = async name => {
+    try {
+        const fileName = name.replace(`${process.env.HOST}/`, '')
+        await fs.unlinkSync(`/public/${fileName}`)
+        return { result: "Success", error: null }
+    } catch (err) {
+        return { result: null, error: err }
+    }
+}
 module.exports = {
-    saveImage
+    saveImage,
+    removeImage
 }

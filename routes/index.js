@@ -9,4 +9,7 @@ module.exports = app => {
     require('./solution')(app)
     require('./customerExperience')(app)
     require('./power')(app)
+    require('./client')(app)
+    require('./history')(app)
+    require('./boardDirector')(app)
 }

@@ -1,22 +1,23 @@
 const mongoose = require('mongoose')
 const ModelSchema = new mongoose.Schema({
-    title: {
-        type: String
-    },
     img: {
         type: String,
-        required: true
+        required: true,
     },
-    content: {
+    name: {
         type: String,
         required: true
     },
-    categories: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category"
-    }]
+    title: {
+        type: String,
+        required: true
+    },
+    position: {
+        type: Number,
+        required: true
+    }
 }, {
     timestamps: true
 })
 
-module.exports = mongoose.model('Power', ModelSchema)
+module.exports = mongoose.model('BoardDirector', ModelSchema)

@@ -9,8 +9,10 @@ module.exports = (app) => {
                 body: { email, password },
             } = req
             const admin = await Admin.findOne({ email })
+            console.log("ADMIN", admin)
             if (admin) {
                 const isPassword = await bcrypt.compare(password, admin.password)
+                console.log("CHECK PASSWORD", isPassword)
                 if (isPassword) {
                     const tokenAuth = jwt.sign(admin.toJSON(), process.env.JWT_KEY, {
                         expiresIn: 2419200,
@@ -27,6 +29,7 @@ module.exports = (app) => {
                     .json({ data: null, errors: "Have somethings problem!" })
             }
         } catch (err) {
+            console.log(err)
             res.status(302).json({ data: null, errors: err })
         }
     })
