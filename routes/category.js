@@ -47,7 +47,7 @@ module.exports = app => {
     app.get('/categories', async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Category.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
+                data = await Category.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
                 pagination = { page, limit, total: await Category.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
@@ -57,7 +57,7 @@ module.exports = app => {
 
     app.get('/categories/all', async (req, res) => {
         try {
-            const data = await Category.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            const data = await Category.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
@@ -95,6 +95,18 @@ module.exports = app => {
             const { query: { search } } = req,
                 data = await Category.fuzzySearch(search)
             res.status(200).json({ data, error: null })
+        } catch (err) {
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
+    app.put("/categories/position", async (req, res) => {
+        try {
+            const { body } = req
+            await Promise.all(body.map(async data => {
+                await Category.update({ _id: data._id }, { position: data.position })
+            }))
+            res.status(200).json({ data: "Updated success", error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }

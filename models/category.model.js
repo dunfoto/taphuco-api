@@ -12,6 +12,10 @@ const mongoose = require('mongoose'),
         img: {
             type: String,
             required: true
+        },
+        position: {
+            type: Number,
+            required: true
         }
     }, {
         timestamps: true

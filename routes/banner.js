@@ -57,7 +57,7 @@ module.exports = app => {
     app.get("/banners", async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
+                data = await Banner.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
                 pagination = { page, limit, total: await Banner.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
@@ -67,7 +67,7 @@ module.exports = app => {
 
     app.get("/banners/all", async (req, res) => {
         try {
-            const data = await Banner.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            const data = await Banner.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
@@ -88,6 +88,7 @@ module.exports = app => {
     app.put("/banners/position", async (req, res) => {
         try {
             const { body } = req
+            console.log(body)
             await Promise.all(body.map(async data => {
                 await Banner.update({ _id: data._id }, { position: data.position })
             }))
