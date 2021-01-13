@@ -1,12 +1,10 @@
-const Model = require("../models/admin.model"),
-    bcrypt = require('bcryptjs')
+const Permission = require("../models/permission.model")
 
-module.exports = (app) => {
-    app.post("/admin", async (req, res) => {
+module.exports = app => {
+    app.post("/permission", async (req, res) => {
         try {
-            const { body } = req
-            body.password = await bcrypt.hash(body.password, 10)
-            const data = new Model(body)
+            const { body } = req,
+                data = new Permission(body)
             await data.save()
             res.status(200).json({ data, error: null })
         } catch (err) {
@@ -16,14 +14,14 @@ module.exports = (app) => {
     })
 
 
-    app.put("/admin/:id", async (req, res) => {
+    app.put("/permission/:id", async (req, res) => {
         try {
             const { params: { id }, body } = req,
-                data = await Model.findById(id)
+                data = await Permission.findById(id)
             if (data) {
-                data.email = body.email
-                data.permission = body.permission
-                data.password = await bcrypt.hash(body.password, 10)
+                data.name = body.name
+                data.roles = body.roles
+                data.level = body.level
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
@@ -35,40 +33,40 @@ module.exports = (app) => {
         }
     })
 
-    app.get("/admin/:id", async (req, res) => {
+    app.get("/permission/:id", async (req, res) => {
         try {
             const { params: { id } } = req,
-                data = await Model.findById(id).populate('permission')
+                data = await Permission.findById(id).populate('roles')
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/admins", async (req, res) => {
+    app.get("/permissions", async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Model.find({}).populate('permission').sort({ createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
-                pagination = { page, limit, total: await Model.countDocuments({}) }
+                data = await Permission.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
+                pagination = { page, limit, total: await Permission.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.get("/admins/all", async (req, res) => {
+    app.get("/permissions/all", async (req, res) => {
         try {
-            const data = await Model.find({}).sort({ createdAt: -1 })
+            const data = await Permission.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 }).select("name")
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
     })
 
-    app.delete("/admin/:id", async (req, res) => {
+    app.delete("/permission/:id", async (req, res) => {
         try {
             const { params: { id } } = req
-            await Model.findByIdAndDelete(id)
+            await Permission.findByIdAndDelete(id)
             res.status(200).json({ data: "Deleted success", error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })

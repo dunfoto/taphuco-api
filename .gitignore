@@ -5,6 +5,5 @@ yarn.lock
 .env
 
 
-config/*
 config/config.json
 public/imgs

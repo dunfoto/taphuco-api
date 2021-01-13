@@ -1,32 +1,50 @@
+const { auth } = require("googleapis/build/src/apis/abusiveexperiencereport")
 const jwt = require("jsonwebtoken"),
     Admin = require("../models/admin.model"),
-    bcrypt = require("bcryptjs")
+    bcrypt = require("bcryptjs"),
+    Permission = require('../models/permission.model'),
+    Role = require('../models/role.model'),
+    fs = require("fs")
 
 module.exports = (app) => {
     app.post("/login/admin", async (req, res) => {
         try {
+            const authAdmin = JSON.parse(await fs.readFileSync("config/admin.json", "utf-8"))
             const {
                 body: { email, password },
             } = req
-            const admin = await Admin.findOne({ email })
-            console.log("ADMIN", admin)
-            if (admin) {
-                const isPassword = await bcrypt.compare(password, admin.password)
-                console.log("CHECK PASSWORD", isPassword)
-                if (isPassword) {
-                    const tokenAuth = jwt.sign(admin.toJSON(), process.env.JWT_KEY, {
+            if (email == authAdmin.email) {
+                if (password === authAdmin.password) {
+
+                    roles = await Role.find({})
+                    const tokenAuth = jwt.sign({ email, roles }, process.env.JWT_KEY, {
                         expiresIn: 2419200,
                     })
-                    res.status(200).json({ data: basicAdmin(admin), token: tokenAuth, errors: null })
+                    res.status(200).json({ data: { email, roles }, token: tokenAuth, errors: null })
                 } else {
                     res
                         .status(302)
                         .json({ data: null, errors: "Have somethings problem!" })
                 }
             } else {
-                res
-                    .status(302)
-                    .json({ data: null, errors: "Have somethings problem!" })
+                const admin = await Admin.findOne({ email })
+                if (admin) {
+                    const isPassword = await bcrypt.compare(password, admin.password)
+                    if (isPassword) {
+                        const tokenAuth = jwt.sign((await basicAdmin(admin)), process.env.JWT_KEY, {
+                            expiresIn: 2419200,
+                        })
+                        res.status(200).json({ data: await basicAdmin(admin), token: tokenAuth, errors: null })
+                    } else {
+                        res
+                            .status(302)
+                            .json({ data: null, errors: "Have somethings problem!" })
+                    }
+                } else {
+                    res
+                        .status(302)
+                        .json({ data: null, errors: "Have somethings problem!" })
+                }
             }
         } catch (err) {
             console.log(err)
@@ -48,7 +66,8 @@ module.exports = (app) => {
     })
 }
 
-const basicAdmin = admin => {
-    const { _id, email, roles } = admin
-    return { _id, email, roles }
+const basicAdmin = async admin => {
+    const { _id, email, permission } = admin,
+        roles = (await Permission.findById(permission).populate('roles')).roles
+    return { _id, email, permission, roles }
 }

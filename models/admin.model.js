@@ -6,10 +6,10 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    roles: [{
+    permission: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Role"
-    }],
+        ref: "Permission"
+    },
     password: {
         type: String
     }
@@ -17,4 +17,4 @@ const UserSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('Admin', UserSchema)

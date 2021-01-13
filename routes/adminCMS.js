@@ -1,6 +1,5 @@
-const { checkAdmin } = require("../common/Authentication")
 module.exports = app => {
-    app.post("/check-token", checkAdmin, (req, res) => {
+    app.post("/check-token", (req, res) => {
         try {
             res.status(200).json({ data: "Token is valid", errors: null })
         } catch (err) {

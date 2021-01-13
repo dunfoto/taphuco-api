@@ -1,5 +1,4 @@
 const fs = require("fs"),
-    { checkAdmin } = require("../common/Authentication"),
     { saveImage } = require("../common/image")
 
 module.exports = app => {
@@ -13,7 +12,7 @@ module.exports = app => {
         }
     })
 
-    app.post("/config/:type", checkAdmin, async (req, res) => {
+    app.post("/config/:type", async (req, res) => {
         try {
             const { params: { type }, body } = req,
                 config = JSON.parse(await fs.readFileSync("config/config.json", "utf8"))

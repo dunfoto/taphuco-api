@@ -12,4 +12,6 @@ module.exports = app => {
     require('./client')(app)
     require('./history')(app)
     require('./boardDirector')(app)
+    require('./role')(app)
+    require('./permission')(app)
 }
