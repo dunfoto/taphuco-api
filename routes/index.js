@@ -14,4 +14,6 @@ module.exports = app => {
     require('./boardDirector')(app)
     require('./role')(app)
     require('./permission')(app)
+    require('./social')(app)
+    require('./contact')(app)
 }
