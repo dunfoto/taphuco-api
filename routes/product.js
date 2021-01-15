@@ -42,7 +42,10 @@ module.exports = app => {
                         return img
                     }
                 }))
+                data.showTitle = body.showTitle
+                data.showDesciption = body.showDesciption
                 data.title = body.title
+                data.description = body.description
                 data.imgs = body.imgs
                 data.prepare = body.prepare
                 data.afterDye = body.afterDye
@@ -54,6 +57,7 @@ module.exports = app => {
                 res.status(302).json({ data: null, error: "Have no this record in system!" })
             }
         } catch (err) {
+            console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })

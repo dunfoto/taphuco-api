@@ -1,8 +1,19 @@
 const mongoose = require('mongoose')
 const ModelSchema = new mongoose.Schema({
+    showTitle: {
+        type: String,
+        required: true
+    },
+    showDescription: {
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true
+    },
+    description: {
+        type: String
     },
     imgs: [{
         type: String
