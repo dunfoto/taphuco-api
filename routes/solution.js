@@ -27,6 +27,7 @@ module.exports = app => {
     app.post('/solution', async (req, res) => {
         try {
             const { body } = req
+            body.position = await Solution.countDocuments({})
             if (body.img.includes("data:image/png;base64")) {
                 const data = await saveImage(body.img)
                 if (data.error) throw data.error
@@ -43,7 +44,7 @@ module.exports = app => {
     app.get('/solutions', async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Solution.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
+                data = await Solution.find({}).sort({ position: 1, updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))),
                 pagination = { page, limit, total: await Solution.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
@@ -53,7 +54,7 @@ module.exports = app => {
 
     app.get("/solutions/all", async (req, res) => {
         try {
-            const data = await Solution.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            const data = await Solution.find({}).sort({ positions: 1, updatedAt: -1, createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
@@ -104,6 +105,7 @@ module.exports = app => {
                 data.img = body.img
                 data.content = body.content
                 data.showTitle = body.showTitle
+                data.position = body.position ? body.position : data.position
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
@@ -120,6 +122,19 @@ module.exports = app => {
             const { params: { id } } = req
             await Solution.findByIdAndDelete(id)
             res.status(200).json({ data: "Deleted success!", error: null })
+        } catch (err) {
+            res.status(302).json({ data: null, error: err })
+        }
+    })
+
+    app.put("/solutions/position", async (req, res) => {
+        try {
+            const { body } = req
+            console.log(body)
+            await Promise.all(body.map(async data => {
+                await Solution.update({ _id: data._id }, { position: data.position })
+            }))
+            res.status(200).json({ data: "Updated success", error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
         }
