@@ -43,7 +43,7 @@ module.exports = app => {
                     }
                 }))
                 data.showTitle = body.showTitle
-                data.showDesciption = body.showDesciption
+                data.showDescription = body.showDescription
                 data.title = body.title
                 data.description = body.description
                 data.imgs = body.imgs
