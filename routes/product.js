@@ -63,11 +63,20 @@ module.exports = app => {
 
     app.get('/products', async (req, res) => {
         try {
-            const { query: { page = 0, limit = 10 } } = req,
-                data = await Product.find({}).sort({ createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))).populate('category'),
-                pagination = { page, limit, total: await Product.countDocuments({}) }
-            res.status(200).json({ data, pagination, error: null })
+            const { query: { search, page = 0, limit = 10 } } = req
+            if (search) {
+                const data = await Product.find({ $text: { $search: search } }).sort({ createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))).populate("category"),
+                    pagination = { page, limit, total: await Product.countDocuments({ $text: { $search: search } }) }
+                console.log(data)
+                res.status(200).json({ data, pagination, error: null })
+            } else {
+                const data = await Product.find({}).sort({ createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))).populate('category'),
+                    pagination = { page, limit, total: await Product.countDocuments({}) }
+                console.log("Have no Search")
+                res.status(200).json({ data, pagination, error: null })
+            }
         } catch (err) {
+            console.log(err)
             res.status(302).json({ data: null, error: err })
         }
     })
