@@ -42,8 +42,6 @@ module.exports = app => {
                         return img
                     }
                 }))
-                data.showTitle = body.showTitle
-                data.showDescription = body.showDescription
                 data.title = body.title
                 data.description = body.description
                 data.imgs = body.imgs
@@ -51,6 +49,7 @@ module.exports = app => {
                 data.afterDye = body.afterDye
                 data.complete = body.complete
                 data.category = body.category
+                data.auxiliariesForPrint = body.auxiliariesForPrint
                 await data.save()
                 res.status(200).json({ data: "Update success", error: null })
             } else {
@@ -65,7 +64,7 @@ module.exports = app => {
     app.get('/products', async (req, res) => {
         try {
             const { query: { page = 0, limit = 10 } } = req,
-                data = await Product.find({}).sort({ updatedAt: -1, createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))).populate('category'),
+                data = await Product.find({}).sort({ createdAt: -1 }).limit(Number(limit)).skip(Number(Number(page) * Number(limit))).populate('category'),
                 pagination = { page, limit, total: await Product.countDocuments({}) }
             res.status(200).json({ data, pagination, error: null })
         } catch (err) {
@@ -75,7 +74,7 @@ module.exports = app => {
 
     app.get("/products/all", async (req, res) => {
         try {
-            const data = await Product.find({}).sort({ updatedAt: -1, createdAt: -1 })
+            const data = await Product.find({}).sort({ createdAt: -1 })
             res.status(200).json({ data, error: null })
         } catch (err) {
             res.status(302).json({ data: null, error: err })
